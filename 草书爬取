@@ -16,7 +16,7 @@ headers_1 = {"user-agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv
              "Content-Type": "application/x-www-form-urlencoded",
              "Cookie": "cookiesort=7; Hm_lvt_5ac259f575081df787744e91bb73f04e=1563974376,1564218809; Hm_lpvt_5ac259f575081df787744e91bb73f04e=1564226330",
              "Host": "www.shufazidian.com"}
-#os.mkdir("D:\\picture")
+os.mkdir("D:\\picture")
 url1 = "http://www.shufazidian.com/"
 hanzi = pd.read_excel("现代汉语常用字表.xls")
 dics = hanzi["汉字"]
@@ -27,11 +27,10 @@ for i in dics :
     if response_url:
         os.mkdir("D:\\picture\\{}".format(i))
         soup = BeautifulSoup(response_url.text, "lxml")
-        pics =soup.find("div", attrs={'id': 'content'}).find("div", id="woo-holder").find("div", attrs={"class":"woo-swb"}).find("div", class_="woo-pcont woo-masned my-pic").find_all("div",class_="woo")
+        pics = soup.find_all("div",class_="mbpho")
         for pic in pics[1:-2]:
-            r1 = pic.find("div",class_="mbpho")
-            if isinstance(r1,element.Tag):
-                r = r1.find("a")
+            if isinstance(pic,element.Tag):
+                r = pic.find("a")
                 url2 = r["href"]
                 response = requests.get(url2,headers = headers_1)
                 string = r["title"]
